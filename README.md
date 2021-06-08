@@ -10,7 +10,7 @@
 👤 **Deyvison**
 
 * Github: [@deyvisongdias](https://github.com/deyvisongdias)
-* Linkedin:  Deyvison Gregorio
+* Linkedin: [Deyvison Gregorio](https://www.linkedin.com/in/deyvison-gregorio-435301207/)
 
 
 👤 **Patrick**
