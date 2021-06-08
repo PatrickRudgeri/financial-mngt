@@ -9,8 +9,8 @@
 
 👤 **Deyvison**
 
-* Github: []()
-* Linkedin: []()
+* Github: [@deyvisongdias](https://github.com/deyvisongdias)
+* Linkedin:  Deyvison Gregorio
 
 
 👤 **Patrick**
