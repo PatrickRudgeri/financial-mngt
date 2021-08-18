@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+{% block title %}RECEITAS{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1><b>{{ user }}</b> | RECEITAS <span class="fas fa-home"></span></h1>
+            <div class="accordion" id="accordion-receitas">
+                {% for object in object_list %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-receitas-{{ forloop.counter }}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-receitas-{{ forloop.counter }}" aria-expanded="true"
+                                    aria-controls="collapse-receitas-{{ forloop.counter }}">
+                                <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
+                            </button>
+                        </h2>
+                        <div id="collapse-receitas-{{ forloop.counter }}" class="accordion-collapse collapse"
+                             aria-labelledby="heading-receitas-{{ forloop.counter }}"
+                             data-bs-parent="#accordion-receitas">
+                            <div class="accordion-body">
+
+                                <span>{{ object.valor }}</span>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

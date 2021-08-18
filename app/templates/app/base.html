@@ -1,0 +1,47 @@
+<!-- Template base - ref: https://docs.djangoproject.com/pt-br/3.0/ref/templates/language/#template-inheritance -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}TITLE{% endblock %}</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/coin.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</head>
+<body>
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <span class="navbar-brand">{{ user.username }}</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'app:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'app:receitas' %}">Receitas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'app:despesas' %}">Despesas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'app:perfil' %}">Perfil</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="navbar-brand" href="{% url 'app:logout' %}">Logout</a>
+        </div>
+    </nav>
+{% endblock navbar %}
+
+{% block content %}{% endblock content %}
+
+</body>
+</html>

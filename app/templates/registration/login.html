@@ -1,0 +1,40 @@
+{% extends 'app/base.html' %}
+{% block title %}LOGIN{% endblock %}
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <span class="navbar-brand">LOGIN</span>
+            <span class="text-warning">[Login será aqui]</span>
+        </div>
+    </nav>
+
+{% endblock navbar %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col"><span></span></div>
+            <div class="col">
+                <h2>Sign-in</h2>
+                <form action="{% url 'app:home' %}" method="post">
+                    {% csrf_token %} {# TAG de proteção para o POST  #}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
+                               placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="submit">
+                        <label class="form-check-label" for="submit">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col"><span></span></div>
+        </div>
+    </div>
+
+{% endblock content %}
