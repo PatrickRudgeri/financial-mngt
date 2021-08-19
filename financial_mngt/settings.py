@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles', # arquivos estáticos
     'app.apps.FinmngtConfig',  # app principal
-    'fontawesomefree'  # Fontes do fontawesome (instalar via pip)
+    'fontawesomefree',  # Fontes do fontawesome (instalar via pip)
+    'crispy_forms'  # crispy forms: https://bit.ly/3gcLP8U
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
