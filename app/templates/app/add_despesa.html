@@ -1,7 +1,21 @@
 {% extends 'app/base.html' %}
+{% load crispy_forms_filters %}
 
-{% block title %}ADD DESPESAS{% endblock %}
+{% block title %}ADD DESPESA{% endblock %}
 
 {% block content %}
-    <div><h1>ADD DESPESAS</h1></div>
+    <div class="container"></div>
+
+    <div class="row">
+        <div class="col-3"><span></span></div>
+        <div class="col-6">
+            <form method="post">{% csrf_token %}
+                {{ form | crispy }}
+                <input class="btn btn-primary" type="submit" value="Salvar">
+
+            </form>
+        </div>
+        <div class="col-3"><span></span></div>
+    </div>
+
 {% endblock %}

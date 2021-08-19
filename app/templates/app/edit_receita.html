@@ -1,7 +1,7 @@
 {% extends 'app/base.html' %}
 {% load crispy_forms_filters %}
 
-{% block title %}ADD RECEITA{% endblock %}
+{% block title %}EDIT RECEITA{% endblock %}
 
 {% block content %}
     <div class="container"></div>
@@ -11,7 +11,7 @@
         <div class="col-6">
             <form method="post">{% csrf_token %}
                 {{ form | crispy }}
-                <input class="btn btn-primary" type="submit" value="Salvar">
+                <input type="submit" value="Salvar">
 
             </form>
         </div>

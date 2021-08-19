@@ -4,52 +4,60 @@
 {% block content %}
 
     <div class="container">
-        <div class="jumbotron">
-            <h1><b>{{ user }}</b> | RECEITAS <span class="fas fa-home"></span></h1>
-            <div class="accordion" id="accordion-receitas">
-                {% for object in object_list %}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading-receitas-{{ forloop.counter }}">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-receitas-{{ forloop.counter }}" aria-expanded="true"
-                                    aria-controls="collapse-receitas-{{ forloop.counter }}">
-                                <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
-                            </button>
-                        </h2>
-                        <div id="collapse-receitas-{{ forloop.counter }}" class="accordion-collapse collapse"
-                             aria-labelledby="heading-receitas-{{ forloop.counter }}"
-                             data-bs-parent="#accordion-receitas">
-                            <div class="accordion-body">
+        <div class="row">
+            <div class="col"><span></span></div>
+            <div class="col-6">
+                <div class="accordion accordion-flush" id="accordion-receitas">
+                    {% for object in object_list %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-receitas-{{ object.id }}">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-receitas-{{ object.id }}" aria-expanded="false"
+                                        aria-controls="collapse-receitas-{{ object.id }}">
+                                    <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
+                                </button>
+                            </h2>
+                            <div id="collapse-receitas-{{ object.id }}" class="accordion-collapse collapse"
+                                 aria-labelledby="heading-receitas-{{ object.id }}"
+                                 data-bs-parent="#accordion-receitas">
+                                <div class="accordion-body">
 
-                                <span>{{ object.valor }}</span>
+                                    <span>R$ {{ object.valor }}</span> | <span>{{ object.data }}</span>
+                                    <a href="{% url 'app:receita_edit' object.id %}" class="btn btn-outline-dark">
+                                        Editar <span class="fas fa-edit"></span>
+                                    </a>
 
+                                    {# how collapse works: https://bit.ly/3sxgp1F#}
+                                    <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-del-receita-{{ object.id }}" aria-expanded="false"
+                                            aria-controls="collapse-del-receita-{{ object.id }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <div class="collapse" id="collapse-del-receita-{{ object.id }}">
+                                        <div class="alert alert-danger card card-body" role="alert">
+                                            <form action="{% url 'app:receita_del' object.id %}"
+                                                  method="post">{% csrf_token %}
+                                                <p>Deseja deletar "{{ object.nome }}"?</p>
+                                                <input class="btn btn-outline-danger" type="submit" value="Sim">
+                                                <button class="btn btn-success" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse-del-receita-{{ object.id }}"
+                                                        aria-expanded="true"
+                                                        aria-controls="collapse-del-receita-{{ object.id }}">
+                                                    Não
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
+            <div class="col">
+                <a href="{% url 'app:receita_add' %}" class="btn btn-primary">Add receita</a>
             </div>
         </div>
     </div>

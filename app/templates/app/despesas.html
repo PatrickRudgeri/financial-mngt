@@ -4,52 +4,59 @@
 {% block content %}
 
     <div class="container">
-        <div class="jumbotron">
-            <h1><b>{{ user }}</b> | DESPESAS <span class="fas fa-home"></span></h1>
-            <div class="accordion" id="accordion-despesas">
-                {% for object in object_list %}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading-despesas-{{ forloop.counter }}">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-despesas-{{ forloop.counter }}" aria-expanded="true"
-                                    aria-controls="collapse-despesas-{{ forloop.counter }}">
-                                <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
-                            </button>
-                        </h2>
-                        <div id="collapse-despesas-{{ forloop.counter }}" class="accordion-collapse collapse"
-                             aria-labelledby="heading-despesas-{{ forloop.counter }}"
-                             data-bs-parent="#accordion-despesas">
-                            <div class="accordion-body">
+        <div class="row">
+            <div class="col"><span></span></div>
+            <div class="col-6">
+                <div class="accordion accordion-flush" id="accordion-despesas">
+                    {% for object in object_list %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-despesas-{{ object.id }}">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-despesas-{{ object.id }}" aria-expanded="true"
+                                        aria-controls="collapse-despesas-{{ object.id }}">
+                                    <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
+                                </button>
+                            </h2>
+                            <div id="collapse-despesas-{{ object.id }}" class="accordion-collapse collapse"
+                                 aria-labelledby="heading-despesas-{{ object.id }}"
+                                 data-bs-parent="#accordion-despesas">
+                                <div class="accordion-body">
 
-                                <span>{{ object.valor }}</span>
+                                    <span>R$ {{ object.valor }}</span> | <span>{{ object.data }}</span>
+                                    <a href="{% url 'app:despesa_edit' object.id %}" class="btn btn-outline-dark">
+                                        Editar <span class="fas fa-edit"></span>
+                                    </a>
 
+                                    {# how collapse works: https://bit.ly/3sxgp1F#}
+                                    <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-del-despesa-{{ object.id }}" aria-expanded="false"
+                                            aria-controls="collapse-del-despesa-{{ object.id }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <div class="collapse" id="collapse-del-despesa-{{ object.id }}">
+                                        <div class="alert alert-danger card card-body" role="alert">
+                                            <form action="{% url 'app:despesa_del' object.id %}"
+                                                  method="post">{% csrf_token %}
+                                                <p>Deseja deletar "{{ object.nome }}"?</p>
+                                                <input class="btn btn-outline-danger" type="submit" value="Sim">
+                                                <button class="btn btn-success" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse-del-despesa-{{ object.id }}"
+                                                        aria-expanded="true"
+                                                        aria-controls="collapse-del-despesa-{{ object.id }}">
+                                                    Não
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
+            <div class="col">
+                <a href="{% url 'app:despesa_add' %}" class="btn btn-primary">Add despesa</a>
             </div>
         </div>
     </div>
