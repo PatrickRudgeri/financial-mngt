@@ -1,20 +1,27 @@
 {% extends 'app/base.html' %}
+{% load crispy_forms_filters %}
 {% block title %}DESPESAS{% endblock %}
-
+{% block nav_despesas %}
+    <li class="nav-item">
+        <a class="nav-link active bg-light bg-opacity-25" href="{% url 'app:despesas' %}">Despesas</a>
+    </li>
+{% endblock %}
 {% block content %}
+
+    {#  ----------------  #}
 
     <div class="container">
         <div class="row">
             <div class="col"><span></span></div>
             <div class="col-6">
                 <div class="accordion accordion-flush" id="accordion-despesas">
-                    {% for object in object_list %}
+                    {% for object in despesa_list %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="heading-despesas-{{ object.id }}">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse-despesas-{{ object.id }}" aria-expanded="true"
                                         aria-controls="collapse-despesas-{{ object.id }}">
-                                    <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
+                                    <span><strong>{{ object.nome }}</strong> (<span>{{ object.categoria }}</span>) | {{ object.usuario }}</span>
                                 </button>
                             </h2>
                             <div id="collapse-despesas-{{ object.id }}" class="accordion-collapse collapse"
@@ -56,7 +63,50 @@
                 </div>
             </div>
             <div class="col">
-                <a href="{% url 'app:despesa_add' %}" class="btn btn-primary">Add despesa</a>
+
+                <div class="container">
+                    <!-- Button trigger modal -->
+                    <div class="row">
+                        <div class="col-2"><span></span></div>
+                        <div class="col-8 col-md col-sm" data-bs-toggle="tooltip" data-bs-placement="right" title="Adicionar Despesa">
+                            <button type="button" class="btn btn-danger col-12 bg-opacity-50" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop-despesa">
+                                <i style="font-size: 48px" class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+                        <div class="col-2"><span></span></div>
+
+                    </div>
+                    <!-- Modal https://bit.ly/3iYsMke -->
+                    <div class="modal fade" id="staticBackdrop-despesa" data-bs-backdrop="static"
+                         data-bs-keyboard="false"
+                         tabindex="-1"
+                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form action="{% url 'app:despesa_add' %}" method="post">{% csrf_token %}
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Adicionar despesa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ form | crispy }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar
+                                        </button>
+                                        <input class="btn btn-success" type="submit" value="Salvar">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>

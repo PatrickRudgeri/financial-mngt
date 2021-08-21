@@ -1,23 +1,36 @@
 {% extends 'app/base.html' %}
+{% load crispy_forms_filters %}
 {% block title %}RECEITAS{% endblock %}
+
+{% block nav_receitas %}
+    <li class="nav-item">
+        <a class="nav-link active bg-light bg-opacity-25" href="{% url 'app:receitas' %}">Receitas</a>
+    </li>
+{% endblock %}
 
 {% block content %}
 
+    {#  ----------------  #}
     <div class="container">
         <div class="row">
             <div class="col"><span></span></div>
             <div class="col-6">
                 <div class="accordion accordion-flush" id="accordion-receitas">
-                    {% for object in object_list %}
+                    {% for object in receita_list %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="heading-receitas-{{ object.id }}">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse-receitas-{{ object.id }}" aria-expanded="false"
                                         aria-controls="collapse-receitas-{{ object.id }}">
-                                    <span><strong>{{ object.nome }}</strong> | {{ object.usuario }}</span>
+                                    <span><strong>{{ object.nome }}</strong> ({{ object.categoria }}) | {{ object.usuario }}</span>
                                 </button>
                             </h2>
-                            <div id="collapse-receitas-{{ object.id }}" class="accordion-collapse collapse"
+                            <div id="collapse-receitas-{{ object.id }}"
+                                    {% if forloop.counter == 1 %}
+                                 class="accordion-collapse collapse show"
+                                    {% else %}
+                                 class="accordion-collapse collapse"
+                                    {% endif %}
                                  aria-labelledby="heading-receitas-{{ object.id }}"
                                  data-bs-parent="#accordion-receitas">
                                 <div class="accordion-body">
@@ -57,7 +70,61 @@
                 </div>
             </div>
             <div class="col">
-                <a href="{% url 'app:receita_add' %}" class="btn btn-primary">Add receita</a>
+                <div class="container">
+                    <!-- Button trigger modal -->
+                    <div class="row">
+                        <div class="col-2"><span></span></div>
+                        <div class="col-8 col-md col-sm" data-bs-toggle="tooltip" data-bs-placement="right"
+                             title="Adicionar Receita">
+                            <button type="button" class="btn btn-success col-12" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop-receita">
+                                <i style="font-size: 48px" class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+                        <div class="col-2"><span></span></div>
+
+                    </div>
+                    <!-- Modal https://bit.ly/3iYsMke -->
+                    <div class="modal fade" id="staticBackdrop-receita" data-bs-backdrop="static"
+                         data-bs-keyboard="false"
+                         tabindex="-1"
+                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form action="{% url 'app:receita_add' %}" method="post">{% csrf_token %}
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Adicionar receita</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ form|crispy }}
+{#                                        {% for field in form %}#}
+{#                                            <div class="fieldWrapper">#}
+{#                                                {{ field.errors }}#}
+{#                                                {{ field.label_tag }} {{ field }}#}
+{#                                                {% if field.help_text %}#}
+{#                                                    <p class="help">{{ field.help_text|safe }}</p>#}
+{#                                                {% endif %}#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar
+                                        </button>
+                                        <input class="btn btn-success" type="submit" value="Salvar">
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>

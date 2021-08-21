@@ -16,7 +16,7 @@
             <div class="col">
                 <h2>Sign-in</h2>
                 <form action="{% url 'app:home' %}" method="post">
-                    {% csrf_token %} {# TAG de proteção para o POST  #}
+                    {% csrf_token %} {# TAG de proteção para o POST : https://bit.ly/2W50xHH #}
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"

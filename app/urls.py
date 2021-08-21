@@ -19,12 +19,12 @@ urlpatterns = [
     path('despesas/add/', views.DespesaCreateView.as_view(), name='despesa_add'),
 
     # Editar receitas e despesas
-    path('receitas/<int:pk>/editar/', views.ReceitaUpdateView.as_view(), name='receita_edit'),
-    path('despesas/<int:pk>/editar/', views.DespesaUpdateView.as_view(), name='despesa_edit'),
+    path('receitas/<int:id>/editar/', views.ReceitaUpdateView.as_view(), name='receita_edit'),
+    path('despesas/<int:id>/editar/', views.DespesaUpdateView.as_view(), name='despesa_edit'),
 
-    # Deletar receitas e despesas
-    path('receitas/<int:pk>/deletar/', views.ReceitaDeleteView.as_view(), name='receita_del'),
-    path('despesas/<int:pk>/deletar/', views.DespesaDeleteView.as_view(), name='despesa_del'),
+    # # Deletar receitas e despesas  (pois estamos deletando in-page diretamente por POST)
+    path('receitas/<int:id>/deletar/', views.ReceitaDeleteView.as_view(), name='receita_del'),
+    path('despesas/<int:id>/deletar/', views.DespesaDeleteView.as_view(), name='despesa_del'),
 
     path('logout/', views.logout_user, name='logout'),
     path('perfil/', views.PerfilUpdateView.as_view(), name='perfil'),

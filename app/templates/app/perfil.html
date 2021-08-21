@@ -3,19 +3,33 @@
 
 {% block title %}PERFIL{% endblock %}
 
+{% block nav_perfil %}
+    <li class="nav-item">
+        <a class="nav-link active bg-light bg-opacity-25" href="{% url 'app:perfil' %}">Perfil</a>
+    </li>
+{% endblock %}
+
 {% block content %}
-    <div class="container"></div>
+    <div class="container">
+        <div class="row">
 
-    <div class="row">
-        <div class="col-3"><span></span></div>
-        <div class="col-6">
-            <form method="post">{% csrf_token %}
-                {{ form | crispy }}
-                <input class="btn btn-primary" type="submit" value="Atualizar">
+            <div class="col-md-4"><span></span></div>
+            <div class="col-md-4 card g-5">
+                <form method="post"> {% csrf_token %}
 
-            </form>
+                    <div class="card-body">
+                        {{ form | crispy }}
+                    </div>
+                    <div class="card-footer">
+                        <input class="btn btn-primary" type="submit" value="Atualizar"/>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="col-md-4"><span></span></div>
         </div>
-        <div class="col-3"><span></span></div>
     </div>
+
 
 {% endblock %}
