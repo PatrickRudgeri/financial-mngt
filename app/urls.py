@@ -7,9 +7,9 @@ from . import views
 
 app_name = 'app'
 urlpatterns = [
-    # path('', views.registrar, name="registrar"),
     path('', views.home, name='home'),
     path('login/', auth_views.LoginView.as_view(), name="login"),
+    path('registrar/', views.registrar, name="registrar"),
 
     path('despesas/', views.DespesaListView.as_view(), name='despesas'),
     path('receitas/', views.ReceitaListView.as_view(), name='receitas'),

@@ -1,10 +1,38 @@
 {% extends 'app/base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
 {% block title %}LOGIN{% endblock %}
 {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+        <div class="container-fluid">
             <span class="navbar-brand">LOGIN</span>
-            <span class="text-warning">[Login será aqui]</span>
+            <div class="col"><span></span></div>
+            <div class="col">
+                {% if form.errors %}
+                    <span class="alert-danger">Your username and password didn't match. Please try again.</span>
+                {% endif %}>
+            </div>
+            <div class="col">
+                <form action="{% url 'app:login' %}" method="post">
+                    {% csrf_token %} {# TAG de proteção para o POST : https://bit.ly/2W50xHH#}
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <input type="text" class="form-control form-control-lg" name="username"
+                                   placeholder="Username" value="">
+                        </div>
+                        <div class="col">
+                            <input type="password" class="form-control form-control-lg" name="password"
+                                   placeholder="Senha" value="">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success">Login</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
         </div>
     </nav>
 
@@ -13,24 +41,37 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col"><span></span></div>
-            <div class="col">
-                <h2>Sign-in</h2>
-                <form action="{% url 'app:home' %}" method="post">
-                    {% csrf_token %} {# TAG de proteção para o POST : https://bit.ly/2W50xHH #}
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
-                               placeholder="Enter username">
+            <div class="col card align-items-center g-5">
+                <div class="card-header-tabs">
+                    <h2>Criar Conta</h2>
+                </div>
+                <form action="{% url 'app:registrar' %}" method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        {#                        <div class="form-group">#}
+                        <label for="username">Username<sup>*</sup></label>
+                        <input type="text" class="form-control" name="username" id="username">
+
+                        <label for="email">E-mail</label>
+                        <input type="email" class="form-control" name="email" id="email">
+
+                        <label for="firstname">Nome</label>
+                        <input type="text" class="form-control" name="first_name" id="firstname">
+
+                        <label for="firstname">Sobrenome</label>
+                        <input type="text" class="form-control" name="last_name" id="lastname">
+
+                        <label for="password">Senha<sup>*</sup></label>
+                        <input type="password" class="form-control" name="password" id="password">
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password">
+                    {#                    </div>#}
+                    <div class="card-footer   align-items-end">
+                        <button type="submit" class="btn btn-outline-success">Cadastrar</button>
                     </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="submit">
-                        <label class="form-check-label" for="submit">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    {% if success %}
+                        <span class="alert-success">{{ success }}</span>
+                    {% endif %}
                 </form>
             </div>
             <div class="col"><span></span></div>
