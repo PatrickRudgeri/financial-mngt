@@ -22,7 +22,8 @@
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse-receitas-{{ object.id }}" aria-expanded="false"
                                         aria-controls="collapse-receitas-{{ object.id }}">
-                                    <span><strong>{{ object.nome }}</strong> ({{ object.categoria }}) | {{ object.usuario }}</span>
+                                    <span><strong>{{ object.nome|capfirst }}</strong> <span
+                                            class="badge bg-dark">{{ object.categoria.nome|capfirst }}</span></span>
                                 </button>
                             </h2>
                             <div id="collapse-receitas-{{ object.id }}"
@@ -35,7 +36,7 @@
                                  data-bs-parent="#accordion-receitas">
                                 <div class="accordion-body">
 
-                                    <span>R$ {{ object.valor }}</span> | <span>{{ object.data }}</span>
+                                    <span>R$ {{ object.valor|floatformat:2 }}</span> | <span>{{ object.data }}</span>
                                     <a href="{% url 'app:receita_edit' object.id %}" class="btn btn-outline-dark">
                                         Editar <span class="fas fa-edit"></span>
                                     </a>
@@ -100,15 +101,6 @@
                                     </div>
                                     <div class="modal-body">
                                         {{ form|crispy }}
-{#                                        {% for field in form %}#}
-{#                                            <div class="fieldWrapper">#}
-{#                                                {{ field.errors }}#}
-{#                                                {{ field.label_tag }} {{ field }}#}
-{#                                                {% if field.help_text %}#}
-{#                                                    <p class="help">{{ field.help_text|safe }}</p>#}
-{#                                                {% endif %}#}
-{#                                            </div>#}
-{#                                        {% endfor %}#}
 
                                     </div>
                                     <div class="modal-footer">

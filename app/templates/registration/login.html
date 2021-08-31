@@ -48,8 +48,6 @@
                 <form action="{% url 'app:registrar' %}" method="post">
                     {% csrf_token %}
                     <div class="card-body">
-
-                        {#                        <div class="form-group">#}
                         <label for="username">Username<sup>*</sup></label>
                         <input type="text" class="form-control" name="username" id="username">
 
@@ -65,13 +63,9 @@
                         <label for="password">Senha<sup>*</sup></label>
                         <input type="password" class="form-control" name="password" id="password">
                     </div>
-                    {#                    </div>#}
                     <div class="card-footer   align-items-end">
                         <button type="submit" class="btn btn-outline-success">Cadastrar</button>
                     </div>
-                    {% if success %}
-                        <span class="alert-success">{{ success }}</span>
-                    {% endif %}
                 </form>
             </div>
             <div class="col"><span></span></div>

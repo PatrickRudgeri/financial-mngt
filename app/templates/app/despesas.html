@@ -21,7 +21,8 @@
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse-despesas-{{ object.id }}" aria-expanded="true"
                                         aria-controls="collapse-despesas-{{ object.id }}">
-                                    <span><strong>{{ object.nome }}</strong> (<span>{{ object.categoria }}</span>) | {{ object.usuario }}</span>
+                                    <span><strong>{{ object.nome|capfirst }}</strong> <span
+                                            class="badge bg-dark">{{ object.categoria.nome|capfirst }}</span></span>
                                 </button>
                             </h2>
                             <div id="collapse-despesas-{{ object.id }}" class="accordion-collapse collapse"
@@ -29,7 +30,7 @@
                                  data-bs-parent="#accordion-despesas">
                                 <div class="accordion-body">
 
-                                    <span>R$ {{ object.valor }}</span> | <span>{{ object.data }}</span>
+                                    <span>R$ {{ object.valor|floatformat:2 }}</span> | <span>{{ object.data }}</span>
                                     <a href="{% url 'app:despesa_edit' object.id %}" class="btn btn-outline-dark">
                                         Editar <span class="fas fa-edit"></span>
                                     </a>
@@ -68,7 +69,8 @@
                     <!-- Button trigger modal -->
                     <div class="row">
                         <div class="col-2"><span></span></div>
-                        <div class="col-8 col-md col-sm" data-bs-toggle="tooltip" data-bs-placement="right" title="Adicionar Despesa">
+                        <div class="col-8 col-md col-sm" data-bs-toggle="tooltip" data-bs-placement="right"
+                             title="Adicionar Despesa">
                             <button type="button" class="btn btn-danger col-12 bg-opacity-50" data-bs-toggle="modal"
                                     data-bs-target="#staticBackdrop-despesa">
                                 <i style="font-size: 48px" class="fas fa-plus-circle"></i>

@@ -21,57 +21,59 @@ import plotly
 import pandas as pd
 
 
-#
 def registrar(request):
     fields = request.POST.copy()
     fields.pop('csrfmiddlewaretoken')
-    new_user = User.objects.create_user(**{k: v[0] if isinstance(v, list) else v for k, v in fields.items()})
+    fields = {k: v[0] if isinstance(v, list) else v for k, v in fields.items()}
+    new_user = User.objects.create_user(**fields)
     new_user.save()
-    print(new_user.username)
-    # informar que usuario foi cadastrado com sucesso e redirecionar para login
-    extra_context = {'success': 'Cadastro realizado com sucesso!', 'fail': 'Não foi possível efetuar o cadastro. Tente novamente!'}
-    return redirect(settings.LOGIN_URL, extra_context=extra_context)
+    # informar que usuario foi cadastrado com sucesso e redirecionar para login]
+    return redirect(reverse_lazy('login', urlconf='app.urls'))
 
 
 # Function-based views
 @login_required()
-def home(request):
+def home(request, month=None, year=None):
+    dt_now = now()
+    tz_now = tz.datetime(dt_now.year if year is None else year, dt_now.month if month is None else month, 1,
+                         dt_now.hour, dt_now.minute, dt_now.second)
     context = {'user': request.user,
-               'total_receitas': '0',
-               'total_despesas': '0',
+               'total_receitas': 0,
+               'total_despesas': 0,
                'graph_despesas': '<span>Dados indisponíveis</span>',
                'graph_receitas': '<span>Dados indisponíveis</span>',
-               'now': now()
+               'now': tz_now
                }
-
     # QuerySet API reference: https://bit.ly/3gfAPHI
     receitas_user = request.user.receita_set.all().order_by('data')
     despesas_user = request.user.despesa_set.all().order_by('data')
+    # receitas e despesas do mês atual ou recebido pela url
+    receitas_mes = receitas_user.filter(data__month=str(tz_now.month), data__year=str(tz_now.year))
+    despesas_mes = despesas_user.filter(data__month=str(tz_now.month), data__year=str(tz_now.year))
 
-    if receitas_user:
+    if receitas_mes:
         cat_receitas_user = request.user.categoriareceita_set.all()
         map_rec = {cat['id']: cat['nome'] for cat in cat_receitas_user.values('id', 'nome')}
-        # receitas e despesas do mês atual
-        receitas_mes = receitas_user.filter(data__month=str(now().month))
-        context['total_receitas'] = '{:.2f}'.format(sum([r.valor for r in receitas_mes]))
+
+        context['total_receitas'] = sum([r.valor for r in receitas_mes])
         df_receitas = pd.DataFrame(receitas_mes.values('nome', 'valor', 'data', 'categoria'))
         df_receitas.replace({'categoria': map_rec}, inplace=True)
         fig = px.pie(df_receitas, names='categoria', values='valor')
         context['graph_receitas'] = plotly.offline.plot(fig, auto_open=False, output_type='div')
 
-    if despesas_user:
+    if despesas_mes:
         cat_despesas_user = request.user.categoriadespesa_set.all()
         map_des = {cat['id']: cat['nome'] for cat in cat_despesas_user.values('id', 'nome')}
-        # despesas do mês atual
-        despesas_mes = despesas_user.filter(data__month=str(now().month))
 
-        context['total_despesas'] = '{:.2f}'.format(sum([r.valor for r in despesas_mes]))
+        context['total_despesas'] = sum([r.valor for r in despesas_mes])
 
         # Gerando dataframes e plotando alguns gráficos do relatório
         df_despesas = pd.DataFrame(despesas_mes.values('nome', 'valor', 'data', 'categoria'))
         df_despesas.replace({'categoria': map_des}, inplace=True)
         fig = px.pie(df_despesas, names='categoria', values='valor')
         context['graph_despesas'] = plotly.offline.plot(fig, auto_open=False, output_type='div')
+
+    context['saldo'] = context['total_receitas'] - context['total_despesas']
 
     return render(request, 'app/home.html', context)
 
@@ -132,7 +134,7 @@ class ReceitaListView(LoginRequiredMixin, ListView, FormView):
 
 class ReceitaCreateView(LoginRequiredMixin, CreateView):
     model = Receita
-    template_name = 'app/add_receita.html'  # Não é necessário
+    template_name = 'app/add_receita.html'  # (opcional)
     form_class = ReceitaForm
 
     def form_valid(self, form):
@@ -145,7 +147,7 @@ class ReceitaCreateView(LoginRequiredMixin, CreateView):
 
 class DespesaCreateView(LoginRequiredMixin, CreateView):
     model = Despesa
-    template_name = 'app/add_despesa.html'  # Não é necessário
+    template_name = 'app/add_despesa.html'  # (opcional)
     form_class = DespesaForm
 
     def form_valid(self, form):
@@ -209,24 +211,3 @@ class DespesaDeleteView(LoginRequiredMixin, DeleteView):
     model = Despesa
     success_url = reverse_lazy('app:despesas')
     pk_url_kwarg = 'id'
-
-# -------------------------------------
-
-
-# # TODO: alterar para LoginView
-# def registrar(request):
-#     return render(request, 'app/login.html')
-
-
-# def autenticar(request):
-#     print(request.POST)
-#     username = request.POST['username']
-#     password = request.POST['password']
-#     user = authenticate(request, username=username, password=password)
-#     if user is not None:
-#         login(request, user)
-#         # Redirect to a success page.
-#         return request
-#     else:
-#         # Return an 'invalid login' error message.
-#         return request

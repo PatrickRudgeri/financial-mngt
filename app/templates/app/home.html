@@ -7,48 +7,97 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="jumbotron">
-            <h1><span class="fas fa-home"></span> | Mês {{ now.month }}</h1>
+        <div class="row align-center">
+            <div class="col-2">
+                <div class="btn-group">
+                    <a href="{% url 'app:home_month' 7 now.year %}" class="btn btn-light btn-outline-dark">Jul</a>
+                    <a href="{% url 'app:home_month' 8 now.year %}" class="btn btn-light btn-outline-dark">Ago</a>
+                    <a href="{% url 'app:home_month' 9 now.year %}" class="btn btn-light btn-outline-dark"
+                       aria-current="page">Set</a>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="btn-group">
+                    <a href="{% url 'app:home_month' now.month 2021 %}" class="btn btn-light btn-outline-dark"
+                       aria-current="page">2021</a>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-auto"><h1>{{ now|date:"F" }}</h1></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Total receitas</h5>
-                        <span>R$ {{ total_receitas }}</span>
+            <div class="col">
+                <div class="card border border-success text-capitalize text-success font-weight-bold">
+                    <div class="card-body mx-auto text-center">
+                        <h5 class="card-title  ">Total receitas</h5>
+                        <h5><b>R$ {{ total_receitas|floatformat:2 }}</b></h5>
+                    </div>
+                </div>
+                <div class="card border border-danger text-capitalize text-danger font-weight-bold">
+                    <div class="card-body mx-auto text-center">
+                        <h5 class="card-title">Total despesas</h5>
+                        <h5><b>R$ {{ total_despesas|floatformat:2 }}</b></h5>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Total despesas</h5>
-                        <span>R$ {{ total_despesas }}</span>
+            <div class="col">
+                <div class="card border border-primary text-capitalize text-primary font-weight-bold">
+                    <div class="card-body mx-auto text-center">
+                        <h5 class="card-title">Saldo</h5>
+                        <h5><b>R$ {{ saldo|floatformat:2 }}</b></h5>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container">
         <div class="row">
-            <div class="col-sm-6">
+            <hr style="display:none;">
+            <p></p>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid row">
+        <div class="row">
+            <div class="col-6">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Receitas</h5>
-                        {{ graph_receitas|safe }}
+
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseReceitaRelatorio"
+                            aria-expanded="false" aria-controls="collapseReceitaRelatorio">Gerar relatório de
+                        receitas
+                    </button>
+
+                    <div class="collapse" id="collapseReceitaRelatorio">
+                        <div class="card card-body">
+                            <h5 class="card-title">Receitas</h5>
+                            {{ graph_receitas|safe }}
+                        </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary">Gerar relatório de receitas</a>
+
             </div>
-            <div class="col-sm-6">
+            <div class="col-6">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Despesas</h5>
-                        {{ graph_despesas|safe }}
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseDespesaRelatorio"
+                            aria-expanded="false" aria-controls=collapseDespesaRelatorio">Gerar relatório de
+                        despesas
+                    </button>
+                    {#                </div>#}
+                    <div class="collapse" id="collapseDespesaRelatorio">
+                        <div class="card card-body">
+                            <h5 class="card-title">Despesas</h5>
+                            {{ graph_despesas|safe }}
+                        </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary">Gerar relatório de despesas</a>
             </div>
         </div>
     </div>

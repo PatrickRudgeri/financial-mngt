@@ -8,6 +8,8 @@ from . import views
 app_name = 'app'
 urlpatterns = [
     path('', views.home, name='home'),
+    path('<int:month>/<int:year>/', views.home, name='home_month'),
+
     path('login/', auth_views.LoginView.as_view(), name="login"),
     path('registrar/', views.registrar, name="registrar"),
 
