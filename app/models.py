@@ -11,7 +11,7 @@ class CategoriaReceita(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.usuario
+        return self.nome
 
     def __repr__(self):
         return self.nome
@@ -22,7 +22,7 @@ class CategoriaDespesa(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.usuario
+        return self.nome
 
     def __repr__(self):
         return self.nome

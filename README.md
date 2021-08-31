@@ -16,29 +16,25 @@
 
 👤 **Patrick**
 
-* Github: []()
-* LinkedIn: []()
-* Matricula :()
+* Github: [@PatrickRudgeri](https://github.com/PatrickRudgeri)
+* LinkedIn: [Patrick Rudgeri](https://www.linkedin.com/in/patrickrudgeri/)
+* Matricula: (201865074AC)
 
 
 👤 **Pedro Henrique**
 
 * Github: [@PHenriqueCEC](https://github.com/PHenriqueCEC)
 * LinkedIn: [Pedro Henrique](https://www.linkedin.com/in/pedro-henrique-77baa01a9/)
-* Matricula :()
+* Matricula :(201835039)
 
-# How to compile the project in a linux environment
+# How to run the project
 
-1. Go to the src folder
+1. Go to the root folder
+2. Install the required packages:
+```bash
+pip install -r requirements.txt
 ```
-cd src
+3. Run the Django server:
+```bash
+python manage.py runserver
 ```
-
-# How to compile the project on windows
-
-
-1. Go to the src folder
-```
-cd src
-```
-
